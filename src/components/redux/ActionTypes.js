@@ -1,7 +1,11 @@
 export const ADD_TO_BASKET = "ADD_TO_BASKET"
 export const DELETE_FROM_BASKET = "DELETE_FROM_BASKET"
 export const DECREASE_QUANTITY = "DECREASE_QUANTITY"
+export const GET_PRODUCTS = "GET_PRODUCTS"
+export const GET_ONE_PRODUCT = "GET_ONE_PRODUCT"
+export const INCREASE_QUANTITY = "INCREASE_QUANTITY"
 export const ADD_TO_FAVORITE = "ADD_TO_FAVORITE"
+export const CHOOSE_THE_CURRENCY = "CHOOSE_CURRENCY"
 
 
 // export const actionTypes = {

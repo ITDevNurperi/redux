@@ -1,63 +1,31 @@
 import {
-    ADD_TO_BASKET,
-    ADD_TO_FAVORITE,
     CHOOSE_THE_CURRENCY,
-    DECREASE_QUANTITY,
-    DELETE_FROM_BASKET, INCREASE_QUANTITY
-} from "./ActionTypes";
+    GET_ONE_PRODUCT,
+    GET_PRODUCTS,} from "../ActionTypes";
+import axios from "axios";
 
-
-/** BASKET ACTIONS **/
-export const addToBasket = (product) => {
-    let basket = JSON.parse(localStorage.getItem('basket')) || []
-    basket = [...basket, {...product,quantity: 1}]
-    localStorage.setItem('basket',JSON.stringify(basket))
-    return ({type:ADD_TO_BASKET,payload:product})
-}
-
-export const decreaseQuantity = (product) => {
-    let basket = JSON.parse(localStorage.getItem('basket')) || []
-    basket = basket.map(el => {
-        if (el.id === product.id) {
-            if (el.quantity > 1) {
-                return{...el, quantity: el.quantity - 1}
-            }else return el
-        }else return el
-    })
-    localStorage.setItem('basket',JSON.stringify(basket))
-    return ({type: DECREASE_QUANTITY, payload: product})
-}
-
-export const increaseQuantity = (id) => {
-    let basket = JSON.parse(localStorage.getItem('basket')) || []
-    basket = basket.map(el => {
-        if (el.id === id.id) {
-                return{...el, quantity: el.quantity + 1}
-        }else return el
-    })
-    localStorage.setItem('basket',JSON.stringify(basket))
-    return ({type: INCREASE_QUANTITY, payload: id})
-}
-
-export const deleteFromBasket = (id) => {
-    let basket = JSON.parse(localStorage.getItem('basket')) || []
-    basket = basket.filter(el => el.id !== id)
-    localStorage.setItem('basket',JSON.stringify(basket))
-    return ({type: DELETE_FROM_BASKET, payload: id})
-
-}
-
-/** FAVORITE ACTIONS **/
-export const addToFavorite = (product) => {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || []
-    const found = favorites.find(el => el.id === product.id)
-    if (found){
-        favorites = favorites.filter(el => el.id !== product.id)
-    }else {
-        favorites = [...favorites, {...product, isLiked: true}]
+export const getProducts = () => {
+    return async (dispatch) => {
+        try {
+            const res = await axios("https://fakestoreapi.com/products")
+            const {data} = await res
+            dispatch({type:GET_PRODUCTS, payload:data})
+        }catch (e) {
+            console.log(e)
+        }
     }
-    localStorage.setItem('favorites',JSON.stringify(favorites))
-    return {type:ADD_TO_FAVORITE,payload:product}
+}
+
+export const getOneProducts = (id) => {
+    return async (dispatch) => {
+        try {
+            const res = await axios(`https://fakestoreapi.com/products/${id}`)
+            const {data} = await res
+            dispatch({type:GET_ONE_PRODUCT, payload: data})
+        }catch (e) {
+            console.log(e)
+        }
+    }
 }
 
 /** CURRENCY ACTIONS **/
